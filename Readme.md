@@ -18,7 +18,7 @@ Initialize:
 - `git init && git add . && git commit -m "Initial commit`
 
 Install quick-crypto (rn701 fork):
-- `yarn add ArweaveNative/react-native-quick-crypto#npm/rn701`
+- `yarn add ArweaveNative/react-native-quick-crypto#built/rn701`
 - `yarn add react-native-quick-base64`
 - `npx pod-install`
 

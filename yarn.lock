@@ -6014,9 +6014,9 @@ react-native-quick-base64@^2.0.2, react-native-quick-base64@^2.0.5:
   dependencies:
     base64-js "^1.5.1"
 
-react-native-quick-crypto@ArweaveNative/react-native-quick-crypto#npm/rn701:
+react-native-quick-crypto@ArweaveNative/react-native-quick-crypto#built/rn701:
   version "0.4.6"
-  resolved "https://codeload.github.com/ArweaveNative/react-native-quick-crypto/tar.gz/34a6b4167fcd9675fb9101d63248601705b64c7f"
+  resolved "https://codeload.github.com/ArweaveNative/react-native-quick-crypto/tar.gz/06956a80b8f0ab3ae798fda31736dd02da957d9a"
   dependencies:
     "@craftzdog/react-native-buffer" "^6.0.4"
     "@types/node" "^17.0.31"
