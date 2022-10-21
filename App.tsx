@@ -75,11 +75,24 @@ const testSign = () => {
   console.log({signature, _length: signature.length})
 }
 
+const testDecryptValidWithFinal = () => {
+  const key = Uint8Array.from([250, 187, 63, 226, 26, 79, 129, 57, 75, 81, 174, 131, 103, 209, 54, 170, 209, 75, 34, 137, 141, 209, 86, 187, 197, 137, 134, 36, 64, 114, 106, 55])
+  const encrypted = Uint8Array.from([255, 132, 52, 236, 193, 99, 226, 127, 90, 111, 189, 134, 166, 63, 183, 29, 66, 68, 174, 119, 10, 141, 89, 13, 119, 159, 188, 251, 174, 74, 193, 131, 14, 225, 116, 175, 186, 66, 184, 103, 143, 244, 192, 111, 223, 192, 188, 183])
+
+  const iv = encrypted.slice(0, 16);
+  const data = encrypted.slice(16);
+  const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
+  
+  const update = decipher.update(data);
+  console.log({update})
+  
+  const final = decipher.final();
+  console.log({final})
+}
+
 const testDecryptInvalid = (doFinal: boolean) => {
   const key = Uint8Array.from([220, 81, 133, 76, 43, 55, 4, 83, 247, 42, 39, 146, 132, 135, 70, 98, 205, 233, 103, 9, 199, 66, 88, 87, 21, 32, 183, 144, 116, 80, 4, 7])
   const encrypted = Uint8Array.from([242, 146, 189, 15, 77, 7, 46, 25, 223, 108, 123, 68, 193, 98, 249, 115, 88, 8, 130, 159, 82, 1, 48, 53, 188, 89, 195, 226, 197, 104, 46, 235, 209, 74, 28, 129, 249, 7, 184, 9, 21, 75, 57, 32, 230, 132, 10, 154])
-
-  // const derivedKey = crypto.pbkdf2Sync(key, "salt", 100000, 32, 'sha256');
 
   const iv = encrypted.slice(0, 16);
   const data = encrypted.slice(16);
@@ -116,6 +129,7 @@ const App = () => {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
           <Button title="testSign" onPress={testSign} />
+          <Button title="testDecryptValidWithFinal" onPress={testDecryptValidWithFinal} />
           <Button title="testDecryptInvalidWithoutFinal" onPress={() => testDecryptInvalid(false)} />
           <Button title="testDecryptInvalidWITHFinal" onPress={() => testDecryptInvalid(true)} />
           <Section title="Step One">

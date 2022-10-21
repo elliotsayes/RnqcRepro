@@ -4,11 +4,12 @@ Created to reproduce https://github.com/margelo/react-native-quick-crypto/issues
 
 - `yarn install && npx pod-install`
 - `yarn ios`
-- Click `testSign` button many times, no problem
-- Click `testDecryptInvalidWithoutFinal` button many times, no problem
-- Click `testSign` button AGAIN many times, no problem
-- Click `testDecryptInvalidWITHFinal` button many times, no problem
-- Click `testSign` button ONCE AGAIN, throws error
+- Click `testSign` button (No error)
+- Click `testDecryptValidWithFinal` AND `testDecryptInvalidWithoutFinal` buttons
+- Click `testSign` button AGAIN (No error)
+- Click `testDecryptInvalidWITHFinal` button
+- Click `testSign` button ONCE AGAIN, observe Error is thrown
+- Check source code in `App.tsx`
 
 ## Reproduction steps:
 
