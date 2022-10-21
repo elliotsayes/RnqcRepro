@@ -10,6 +10,7 @@
 
 import React, {type PropsWithChildren} from 'react';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -18,6 +19,7 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import crypto from 'react-native-quick-crypto';
 
 import {
   Colors,
@@ -57,6 +59,41 @@ const Section: React.FC<
   );
 };
 
+const pem = require('./rsa_pem.json')
+
+const testSign = () => {
+  const data = Buffer.from(new Uint8Array(16));
+  const res = crypto
+    .createSign('sha256')
+    .update(data)
+    .sign({
+    key: pem,
+    padding: crypto.constants.RSA_PKCS1_PSS_PADDING
+  })
+
+  const signature = Buffer.from(res)
+  console.log({signature, _length: signature.length})
+}
+
+const testDecryptInvalid = (doFinal: boolean) => {
+  const key = Uint8Array.from([220, 81, 133, 76, 43, 55, 4, 83, 247, 42, 39, 146, 132, 135, 70, 98, 205, 233, 103, 9, 199, 66, 88, 87, 21, 32, 183, 144, 116, 80, 4, 7])
+  const encrypted = Uint8Array.from([242, 146, 189, 15, 77, 7, 46, 25, 223, 108, 123, 68, 193, 98, 249, 115, 88, 8, 130, 159, 82, 1, 48, 53, 188, 89, 195, 226, 197, 104, 46, 235, 209, 74, 28, 129, 249, 7, 184, 9, 21, 75, 57, 32, 230, 132, 10, 154])
+
+  // const derivedKey = crypto.pbkdf2Sync(key, "salt", 100000, 32, 'sha256');
+
+  const iv = encrypted.slice(0, 16);
+  const data = encrypted.slice(16);
+  const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
+  
+  const update = decipher.update(data);
+  console.log({update})
+  
+  if (doFinal) {
+    const final = decipher.final();
+    console.log({final})
+  }
+}
+
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -78,6 +115,9 @@ const App = () => {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
+          <Button title="testSign" onPress={testSign} />
+          <Button title="testDecryptInvalidWithoutFinal" onPress={() => testDecryptInvalid(false)} />
+          <Button title="testDecryptInvalidWITHFinal" onPress={() => testDecryptInvalid(true)} />
           <Section title="Step One">
             Edit <Text style={styles.highlight}>App.tsx</Text> to change this
             screen and then come back to see your edits.
